@@ -1,4 +1,5 @@
 from django.db import connection
+from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -20,6 +21,25 @@ class CustomAuthToken(ObtainAuthToken):
             'token': token.key,
             'username': user.username
         })
+
+class Register(APIView):
+    def post(self, request, format=None):
+        try:
+            resp_dict = json.loads(request.body)
+            if User.objects.filter(username=resp_dict['username']).exists():
+                return Response({'response': "Fail! Username exists!"}, status=status.HTTP_400_BAD_REQUEST)
+            user = User.objects.create_user(
+                username=resp_dict['username'],
+                email=resp_dict['email'],
+                password=resp_dict['password'],
+                first_name=resp_dict['first_name'],
+                last_name=resp_dict['last_name']
+            )
+            user.save()
+            return Response({'response': "Success! User created!"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(str(e))
+            return Response({'error': "Fail! Not registered!"}, status=status.HTTP_400_BAD_REQUEST)
 
 class Logout(APIView):
     permission_classes = (IsAuthenticated,)
