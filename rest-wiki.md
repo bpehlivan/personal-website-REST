@@ -1,5 +1,5 @@
-#API:
-##1. Login
+# API:
+## 1. Login
 Url: <host>/app/login
 Method: POST
 Body:
@@ -13,7 +13,7 @@ Response:
 {
 "token": "a7b3f6941d9876ba08d152527cf1105b01689afd"
 }
-##2. Get Records
+## 2. Get Records
 Url: <host>/app/getrecords/
 Method: GET
 Headers:
@@ -28,7 +28,7 @@ Response:
 },
 ....
 ]
-##3. Set Record
+## 3. Set Record
 Url: <host>/app/record/
 Method: POST
 Headers:
@@ -45,7 +45,7 @@ if succesful:
 {"response": "Success! your record saved!"}
 else:
 {“error”: “body could not be parsed”}
-##4. Delete Record
+## 4. Delete Record
 Url: <host>/app/record/
 Method: DELETE
 Headers:
@@ -60,12 +60,12 @@ if succesful:
 {"response": "Success, your record deleted!"}
 else:
 {“error”: “body could not be parsed”}
-##5. Logout
+## 5. Logout
 Url: <host>/app/logout
 Method: POST
 Headers:Authantication: Token <login token>
 no response
-##6. Register
+## 6. Register
 Url: <host>/app/register
 No authantication needed.
 Headers:
