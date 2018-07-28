@@ -47,12 +47,19 @@ class Logout(APIView):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
-class CreateView(APIView):
+class GetRecords(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
-        c.execute("SELECT array_to_json(array_agg(t)) FROM test.record as t")
-        data = c.fetchall()
-        return Response(data[0][0])
+        id = request.user.id
+        try:
+            c.execute("SELECT array_to_json(array_agg(t)) FROM test.record as t WHERE user_id = %s", (id,))
+            data = c.fetchall()
+            status_code = status.HTTP_200_OK
+        except:
+            data = 'error occured!'
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+        return Response({'response': data[0][0]}, status=status_code)
 
 class SetWeightRecord(APIView):
     permission_classes = (IsAuthenticated,)

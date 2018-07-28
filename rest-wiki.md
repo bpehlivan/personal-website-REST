@@ -17,7 +17,7 @@ Response:
 Url: <host>/app/getrecords/
 Method: GET
 Headers:
-Authantication: Token <login token>
+Authorization: Token <login token>
 Response:
 [
 {
@@ -32,7 +32,7 @@ Response:
 Url: <host>/app/record/
 Method: POST
 Headers:
-Authantication: Token <login token>
+Authorization: Token <login token>
 Content-Type: application/json
 Body:
 {
@@ -49,7 +49,7 @@ else:
 Url: <host>/app/record/
 Method: DELETE
 Headers:
-Authantication: Token <login token>
+Authorization: Token <login token>
 Content-Type: application/json
 Body:
 {
