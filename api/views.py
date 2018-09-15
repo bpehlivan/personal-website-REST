@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from datetime import datetime
 import json
 
 c = connection.cursor()
@@ -66,13 +67,14 @@ class SetWeightRecord(APIView):
     def post(self, request, format=None):
         try:
             resp_dict = json.loads(request.body)
+            record_time = datetime.now()
             sql = """
             INSERT INTO test.record VALUES(%s, %s, %s, %s)
             ON CONFLICT (user_id, date) DO UPDATE
             SET weight = %s, record_date = %s
             """
             data = (request.user.id, resp_dict['date'], resp_dict['weight'],
-                    resp_dict['record time'], resp_dict['weight'], resp_dict['record time'])
+                    record_time, resp_dict['weight'], record_time)
 
             c.execute(sql, data)
             return Response({'response': "Success! your record saved!"},status=status.HTTP_200_OK)
