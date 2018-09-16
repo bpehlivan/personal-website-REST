@@ -53,7 +53,8 @@ class GetRecords(APIView):
     def get(self, request, format=None):
         id = request.user.id
         try:
-            c.execute("SELECT array_to_json(array_agg(t)) FROM test.record as t WHERE user_id = %s", (id,))
+            c.execute("""WITH records AS (SELECT * FROM test.record AS t WHERE user_id = %s ORDER BY date ASC)
+SELECT array_to_json(array_agg(r)) FROM records AS r""", (id,))
             data = c.fetchall()
             status_code = status.HTTP_200_OK
         except:
